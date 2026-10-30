@@ -14,8 +14,8 @@ add_library(GLOOPy
     src/Shader.cpp
     src/Skybox.cpp
     src/Transform.cpp
-    src/Time.cpp
-)
+    "src/FrameTime.cpp"
+ "src/HUD.cpp" "include/HUD.h")
 
 
 
@@ -48,14 +48,14 @@ target_link_libraries(GLOOPy
 
 add_executable(GLOOPyDemo
     src/GLOOPy.cpp
-)
+ "src/HUD.cpp" "include/HUD.h")
 
 target_link_libraries(GLOOPyDemo
     PRIVATE
         GLOOPy
 )
 
-file(GLOB_RECURSE HELPMEPLZ_ASSET_FILES
+file(GLOB_RECURSE GLOOPY_ASSET_FILES
     CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/shaders/*"
         "${CMAKE_CURRENT_SOURCE_DIR}/images/*"

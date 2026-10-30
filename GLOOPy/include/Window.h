@@ -17,5 +17,6 @@ public:
     void screenMouseScrollFunction(GLFWscrollfun function);
     void beginFrame(float r, float g, float b, float a, GLbitfield mask);
     void endFrame();
+    void inputMode(int mode,int value);
 
 };

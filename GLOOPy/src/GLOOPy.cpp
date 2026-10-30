@@ -28,6 +28,7 @@
 #include "VertexArray.h"
 #include "Window.h"
 #include "Light.h"
+#include "HUD.h"
 
 #include <algorithm>
 #include <cmath>
@@ -60,13 +61,6 @@ namespace cfg
     const float TIME_BONUS = 3.0f;   // seconds added per crystal
 }
 
-// -----------------------------------------------------------------------------
-//  Small helpers that OOGL does not have (kept here on purpose)
-// -----------------------------------------------------------------------------
-static void setVec2(Shader& s, const char* name, glm::vec2 v)
-{
-    glUniform2f(glGetUniformLocation(s.ID, name), v.x, v.y);
-}
 
 static float frand(std::mt19937& rng, float a, float b)
 {
@@ -574,8 +568,8 @@ struct Renderer
     // rectangle in clip space (centre cx,cy, half-size hw,hh)
     void rect(float cx, float cy, float hw, float hh, glm::vec3 color, float alpha)
     {
-        setVec2(shader, "uOverlayScale", glm::vec2(hw, hh));
-        setVec2(shader, "uOverlayOffset", glm::vec2(cx, cy));
+        shader.setVec2("uOverlayScale", glm::vec2(hw, hh));
+        shader.setVec2("uOverlayOffset", glm::vec2(cx, cy));
         shader.setVec3("uTint", color);
         shader.setFloat("uTintAmount", alpha);
         quad.Draw(shader, light);
@@ -639,7 +633,7 @@ int main()
     Window window(cfg::SCR_W, cfg::SCR_H, "Crystal Rush", NULL, NULL);
     window.screenSizeUpdaterFunction(framebuffer_size_callback);
     window.screenMouseMotionFunction(mouse_callback);
-    glfwSetInputMode(window.screen, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    window.inputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -682,6 +676,9 @@ int main()
     const glm::vec3 fogColor(0.45f, 0.50f, 0.55f);
     bool rWasDown = false;
     float titleTimer = 0.0f;
+
+    Shader HUD_shader("shaders/hud.vs", "shaders/hud.fs");
+    HUD center(HUD_shader, glm::vec2(450.0f), glm::vec2(16.0f), "images/yellow_circle.png");
 
     while (!glfwWindowShouldClose(window.screen))
     {
@@ -810,6 +807,10 @@ int main()
         drawHUD(r, game, aspect);
         gameShader.setBool("uOverlay", false);
         glEnable(GL_DEPTH_TEST);
+
+        glm::mat4 HUDProjection = glm::ortho(0.0f, (float)cfg::SCR_W, (float)cfg::SCR_H, 0.0f);
+        center.setShader(HUDProjection,true);
+        center.draw();
 
         window.endFrame();
     }

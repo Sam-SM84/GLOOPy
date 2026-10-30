@@ -47,3 +47,8 @@ void Window::endFrame()
     glfwSwapBuffers(screen);
     glfwPollEvents();
 }
+
+void Window::inputMode(int mode, int value)
+{
+    glfwSetInputMode(screen, mode, value);
+}
