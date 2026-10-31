@@ -1,6 +1,6 @@
 #include "HUD.h"
 
-HUD::HUD(Shader _shader, glm::vec2 _pos, glm::vec2 _size, const char* path)
+HUD::HUD(Shader _shader, glm::vec2 _pos, float _size, const char* path)
 {
 	shader = _shader;
 	position = _pos;
@@ -39,11 +39,12 @@ HUD::HUD(Shader _shader, glm::vec2 _pos, glm::vec2 _size, const char* path)
 
 void HUD::setShader(glm::mat4 projection, bool image)
 {
+	shader.use();
 	shader.setMat4("projection", projection);
 	shader.setBool("image", image);
 	shader.setInt("texture", 0);
 	shader.setVec3("color", glm::vec3(1.0f, 0.0f, 0.0f));
-	shader.setVec2("size", size);
+	shader.setFloat("size", size);
 	shader.setVec2("position", position);
 }
 

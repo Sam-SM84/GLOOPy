@@ -13,9 +13,9 @@ public:
 	Buffer EBO, VBO;
 	Shader shader;
 	glm::vec2 position;
-	glm::vec2 size;
+	float size;
 
-	HUD(Shader _shader, glm::vec2 _pos, glm::vec2 _size, const char* path = NULL);
+	HUD(Shader _shader, glm::vec2 _pos, float _size, const char* path = NULL);
 
 	void setShader(glm::mat4 projection, bool image);
 

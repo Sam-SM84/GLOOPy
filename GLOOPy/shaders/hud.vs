@@ -5,7 +5,7 @@ out vec2 TexCoords;
 
 uniform mat4 projection;
 uniform vec2 position;
-uniform vec2 size;
+uniform float size;
 
 void main()
 {
