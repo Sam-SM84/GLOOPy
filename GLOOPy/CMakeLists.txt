@@ -15,7 +15,7 @@ add_library(GLOOPy
     src/Skybox.cpp
     src/Transform.cpp
     "src/FrameTime.cpp"
- "src/HUD.cpp" "include/HUD.h")
+ "src/HUD.cpp" "include/HUD.h" "src/Input.cpp" "include/Input.h")
 
 
 
@@ -48,7 +48,7 @@ target_link_libraries(GLOOPy
 
 add_executable(GLOOPyDemo
     src/GLOOPy.cpp
- "src/HUD.cpp" "include/HUD.h")
+ "src/HUD.cpp" "include/HUD.h" "src/Input.cpp" "include/Input.h")
 
 target_link_libraries(GLOOPyDemo
     PRIVATE
